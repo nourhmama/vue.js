@@ -7,38 +7,42 @@ const baseUrl = 'http://dev.back-end.localhost/api'; // URL de base
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    user: null, // Ne récupère pas les données de l'utilisateur du localStorage
+    user: null,
     returnUrl: null
   }),
   actions: {
     async login(email: string, password: string) {
       try {
         const response = await fetchWrapper.post(`${baseUrl}/login`, { email, password });
-        const user = response.data; // Supposons que votre backend renvoie les données de l'utilisateur sous forme d'objet
+        const responseData = response.data;
 
-        // Afficher les données de l'utilisateur renvoyées par le backend dans la console
-        console.log("Données de l'utilisateur :", user);
+        // Vérifier si le champ 'role' est disponible dans la réponse
+        if (responseData.user && responseData.token) {
+          // Stocker à la fois l'utilisateur et le token dans le localStorage
+          localStorage.setItem('user', JSON.stringify(responseData.user));
+          localStorage.setItem('token', responseData.token);
 
-        // Mettre à jour l'état de Pinia
-        this.user = user;
-        localStorage.setItem('user', JSON.stringify(user)); // Facultatif : stocker les données dans le localStorage si nécessaire
-        router.push(this.returnUrl || '/dashboard');
+          if (responseData.user.role === 'admin') {
+            this.user = responseData.user;
+            router.push('/dashboard'); // Redirection vers le tableau de bord pour les administrateurs
+          } else {
+            this.user = responseData.user;
+            router.push('/landing'); // Redirection vers la page d'accueil pour les utilisateurs réguliers
+          }
+        } else {
+          console.error('User or token not found in server response');
+          // Gérer l'erreur de connexion ici
+        }
       } catch (error) {
         console.error("Une erreur s'est produite lors de la connexion :", error);
         // Gérer l'erreur de connexion ici
       }
     },
+
     async logout() {
       try {
         // Récupérer le token depuis le localStorage
-        const localStorageData = localStorage.getItem('user');
-        if (!localStorageData) {
-          throw new Error('User data not found in localStorage');
-        }
-        // Parser les données en tant qu'objet JavaScript
-        const userData = JSON.parse(localStorageData);
-        // Extraire le token de l'objet userData
-        const token = userData.token;
+        const token = localStorage.getItem('token');
         if (!token) {
           throw new Error('Token not found in localStorage');
         }
@@ -47,13 +51,14 @@ export const useAuthStore = defineStore({
           method: 'DELETE', // Assurez-vous que la méthode HTTP est correcte
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
         });
         // Vérifier si la déconnexion s'est bien passée
         if (response.ok) {
           // Supprimer le token du localStorage après la déconnexion
           localStorage.removeItem('user');
+          localStorage.removeItem('token');
           // Supprimer les données de l'utilisateur de l'état Pinia
           this.user = null;
           // Rediriger l'utilisateur vers la page de connexion

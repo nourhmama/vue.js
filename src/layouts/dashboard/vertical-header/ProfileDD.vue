@@ -17,26 +17,26 @@ import { useAuthStore } from '@/stores/auth';
 
 const tab = ref(null);
 const authStore = useAuthStore();
+
 // Déclaration de la variable pour stocker les informations de l'utilisateur
 let currentUser: { first_name?: string; last_name?: string } = {};
 
 // Méthode pour récupérer l'utilisateur à partir du local storage
-// Méthode pour récupérer l'utilisateur à partir du local storage
-// Méthode pour récupérer l'utilisateur à partir du local storage
 const getUserFromLocalStorage = () => {
   const userString = localStorage.getItem('user');
-  // console.log('Données utilisateur depuis le localStorage :', userString); // Débogage
   if (userString) {
     const userData = JSON.parse(userString);
-    // Vérifiez si les informations de l'utilisateur sont présentes dans la propriété `user`
-    if (userData && userData.user && userData.user.first_name && userData.user.last_name) {
-      currentUser = userData.user;
-      // console.log('currentUser après le parsing :', currentUser); // Débogage
+    // Vérifiez si les informations de l'utilisateur sont présentes dans les données récupérées
+    if (userData && userData.first_name && userData.last_name) {
+      currentUser = userData;
     } else {
       console.error("Erreur: les informations de l'utilisateur ne sont pas correctement définies dans les données récupérées");
     }
+  } else {
+    console.error("Erreur: les informations de l'utilisateur n'ont pas été trouvées dans le localStorage");
   }
 };
+
 // Appeler la méthode lors de la création du composant
 onMounted(() => {
   getUserFromLocalStorage();
@@ -46,7 +46,6 @@ onMounted(() => {
   }
 });
 </script>
-
 <template>
   <!-- ---------------------------------------------- -->
   <!-- profile DD -->

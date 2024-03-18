@@ -127,10 +127,10 @@
     </div>
     <!-- <v-btn color="primary" block class="mt-4" variant="flat" size="large" @click="validate()">Create Account</v-btn> -->
     <v-form ref="Regform" lazy-validation action="/dashboards/analytical" class="mt-7 loginForm">
-    <!-- Reste du formulaire ici -->
-    
-    <v-btn color="primary" block class="mt-4" variant="flat" size="large" @click="validate()">Create Account</v-btn>
-  </v-form>
+      <!-- Reste du formulaire ici -->
+
+      <v-btn color="primary" block class="mt-4" variant="flat" size="large" @click="validate()">Create Account</v-btn>
+    </v-form>
   </v-form>
 </template>
 <script setup lang="ts">
@@ -178,9 +178,6 @@ function submitForm() {
     password: password.value,
     password_confirmation: password_confirmation.value
   };
-  
-  // Afficher les données saisies par l'utilisateur dans la console
-  console.log('User data:', formData);
 
   // Envoyer les données du formulaire au serveur
   // Utilisez une méthode telle que fetch() ou Axios pour envoyer les données au backend
@@ -191,19 +188,19 @@ function submitForm() {
     },
     body: JSON.stringify(formData)
   })
-  .then(response => {
-    if (response.ok) {
-      router.push('/auth/login');
-      console.log('User registered successfully!');
-      // Redirection ou autre action
-    } else {
-      console.error('Failed to register user:', response.statusText);
-      // Gestion des erreurs
-    }
-  })
-  .catch(error => {
-    console.error('An error occurred while registering the user:', error);
-    // Gestion des erreurs de requête
-  });
+    .then((response) => {
+      if (response.ok) {
+        router.push('/auth/login');
+        console.log('User registered successfully!');
+        // Redirection ou autre action
+      } else {
+        console.error('Failed to register user:', response.statusText);
+        // Gestion des erreurs
+      }
+    })
+    .catch((error) => {
+      console.error('An error occurred while registering the user:', error);
+      // Gestion des erreurs de requête
+    });
 }
 </script>

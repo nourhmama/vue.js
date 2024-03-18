@@ -7,11 +7,11 @@ import AuthFooter from './AuthFooter.vue';
 <template>
   <v-row class="bg-containerBg position-relative" no-gutters>
     <div class="logo-flou">
-      <img
+    <img
         src="@/assets/images/maintenance/icon.jpg"
         alt="Description alternative de l'image"
-        style="width: 18%; height: calc(104vh - 440px); filter: blur(0px); position: fixed; bottom: -4px; right: 1125px"
-      />
+        style="max-width: 100%; height: auto; max-height: calc(100vh - 440px); filter: blur(0px); position: fixed; bottom: -4px; right: 1175px"
+    /> 
 
       <!-- <svg width="100%" height="calc(100vh - 175px)" viewBox="0 0 405 809" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

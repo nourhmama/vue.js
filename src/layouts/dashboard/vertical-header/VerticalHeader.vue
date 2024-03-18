@@ -21,14 +21,17 @@ const getUserFromLocalStorage = () => {
   const userString = localStorage.getItem('user');
   if (userString) {
     const userData = JSON.parse(userString);
-    // Vérifiez si les informations de l'utilisateur sont présentes dans la propriété `user`
-    if (userData && userData.user && userData.user.first_name && userData.user.last_name) {
-      currentUser = userData.user;
+    // Vérifiez si les informations de l'utilisateur sont présentes dans les données récupérées
+    if (userData && userData.first_name && userData.last_name) {
+      currentUser = userData;
     } else {
       console.error("Erreur: les informations de l'utilisateur ne sont pas correctement définies dans les données récupérées");
     }
+  } else {
+    console.error("Erreur: les informations de l'utilisateur n'ont pas été trouvées dans le localStorage");
   }
 };
+
 // Appeler la méthode lors de la création du composant
 onMounted(() => {
   getUserFromLocalStorage();
@@ -105,17 +108,6 @@ onMounted(() => {
     <!-- ---------------------------------------------- -->
     <!-- Github -->
     <!-- ---------------------------------------------- -->
-    <v-btn
-      icon
-      class="text-secondary hidden-sm-and-down d-flex"
-      color="darkText"
-      rounded="sm"
-      variant="text"
-      href="https://github.com/codedthemes/mantis-free-vuetify-vuejs-admin-template"
-      target="_blank"
-    >
-      <GithubOutlined :style="{ fontSize: '16px' }" />
-    </v-btn>
 
     <!-- ---------------------------------------------- -->
     <!-- Notification -->

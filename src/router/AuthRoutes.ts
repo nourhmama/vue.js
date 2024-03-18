@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/css/all.min.css';
 const AuthRoutes = {
   path: '/auth',
   component: () => import('@/layouts/blank/BlankLayout.vue'),
@@ -14,6 +15,11 @@ const AuthRoutes = {
       name: 'Register',
       path: '/auth/register',
       component: () => import('@/views/authentication/auth/RegisterPage.vue')
+    },
+    {
+      name: 'Landing',
+      path: '/landing',
+      component: () => import('@/views/home/landing.vue')
     },
     {
       name: 'Error 404',

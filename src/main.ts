@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
@@ -15,6 +16,7 @@ import '@fontsource/public-sans/400.css';
 import '@fontsource/public-sans/500.css';
 import '@fontsource/public-sans/600.css';
 import '@fontsource/public-sans/700.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 //Mock Api data
 // import { fakeBackend } from '@/utils/helpers/fake--backend';

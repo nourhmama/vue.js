@@ -8,9 +8,9 @@ import {
   FontSizeOutlined,
   BgColorsOutlined,
   BarcodeOutlined,
-  CrownOutlined
+  CrownOutlined,
+  UserOutlined
 } from '@ant-design/icons-vue';
-
 export interface menu {
   header?: string;
   title?: string;
@@ -33,6 +33,11 @@ const sidebarItem: menu[] = [
     title: 'Dashboard',
     icon: DashboardOutlined,
     to: '/dashboard'
+  },
+  {
+    title: 'Users',
+    icon: UserOutlined,
+    to: '/users'
   },
   { header: 'Authentication' },
   {
