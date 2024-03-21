@@ -21,18 +21,30 @@ export const router = createRouter({
 // Code de navigation de garde
 router.beforeEach(async (to, from, next) => {
   const publicPages = ['/auth/login'];
-  const authRequired = !publicPages.includes(to.path);
   const auth: AuthStore = useAuthStore();
 
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (authRequired && !auth.user) {
-      auth.returnUrl = to.fullPath;
-      return next('/auth/login');
-    } else next();
+  // Restauration des données d'authentification
+  const user = localStorage.getItem('user');
+  if (user) {
+    auth.user = JSON.parse(user);
+  }
+
+  // Vérification si l'utilisateur est sur une page publique
+  const isPublicPage = publicPages.includes(to.path);
+
+  // Vérification si l'utilisateur est déjà authentifié
+  const isAuthenticated = auth.user !== null;
+
+  // Si la page nécessite une authentification et que l'utilisateur n'est pas authentifié,
+  // ou si l'utilisateur est sur une page publique, redirigez-le vers la page de connexion
+  if (!isAuthenticated && !isPublicPage) {
+    auth.returnUrl = to.fullPath;
+    next('/auth/login');
   } else {
     next();
   }
 });
+
 
 // Middleware pour l'affichage de la barre de chargement
 router.beforeEach(() => {

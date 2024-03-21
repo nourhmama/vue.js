@@ -236,7 +236,7 @@ export default {
 }
 
 .btn-update i:hover {
-  color: green;
+  color: rgb(12, 16, 238);
 }
 
 .btn-delete i:hover {
@@ -318,5 +318,9 @@ export default {
 
 .pagination span {
   margin: 0 10px;
+}
+.popup-buttons button:hover {
+  background-color: #ddd; /* Couleur de fond au survol */
+  color: black; /* Couleur du texte au survol */
 }
 </style>
